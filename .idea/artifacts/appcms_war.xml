@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="appcms:war">
-    <output-path>$PROJECT_DIR$/appcms/target</output-path>
-    <root id="archive" name="appcms.war">
-      <element id="artifact" artifact-name="appcms:war exploded" />
-    </root>
-  </artifact>
-</component>

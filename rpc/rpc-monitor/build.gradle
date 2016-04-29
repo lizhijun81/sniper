@@ -1,0 +1,4 @@
+group 'xiaoma.github.rpc'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'

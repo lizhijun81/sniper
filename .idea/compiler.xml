@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="Javac" />
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -12,6 +11,7 @@
       <entry name="!?*.flex" />
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
@@ -22,17 +22,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="app-web" />
-        <module name="appcms" />
-        <module name="appweb" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="app-web" target="1.7" />
-      <module name="appcms" target="1.7" />
-      <module name="appweb" target="1.7" />
-      <module name="parent" target="1.7" />
+      <module name="app_main" target="1.8" />
+      <module name="app_test" target="1.8" />
+      <module name="rpc-core" target="1.8" />
+      <module name="rpc-core_main" target="1.8" />
+      <module name="rpc-core_test" target="1.8" />
+      <module name="rpc-monitor_main" target="1.8" />
+      <module name="rpc-monitor_test" target="1.8" />
+      <module name="rpc-web_main" target="1.8" />
+      <module name="rpc-web_test" target="1.8" />
+      <module name="rpc_main" target="1.8" />
+      <module name="rpc_test" target="1.8" />
+      <module name="trace_main" target="1.8" />
+      <module name="trace_test" target="1.8" />
+      <module name="web_main" target="1.8" />
+      <module name="web_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
-

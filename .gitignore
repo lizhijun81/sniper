@@ -1,0 +1,20 @@
+# gradle
+.gradle
+gradle
+/build
+out
+
+# idea
+.idea
+*.iml
+
+
+# eclipse
+.classpath
+.settings
+.project
+.metadata
+
+#project
+**/build/
+**/.gradle/

@@ -1,0 +1,4 @@
+rootProject.name = 'rpc'
+include 'rpc-core'
+include 'rpc-web'
+include 'rpc-monitor'
