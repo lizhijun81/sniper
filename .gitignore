@@ -1,11 +1,11 @@
 # gradle
-.gradle
+.gradle/
 gradle
 /build
-out
+out/
 
 # idea
-.idea
+.idea/
 *.iml
 
 
