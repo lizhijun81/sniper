@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app_main.iml" filepath="$PROJECT_DIR$/.idea/modules/app_main.iml" group="app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app_test.iml" filepath="$PROJECT_DIR$/.idea/modules/app_test.iml" group="app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rpc/rpc.iml" filepath="$PROJECT_DIR$/.idea/modules/rpc/rpc.iml" group="rpc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-269538654/rpc-core.iml" filepath="$PROJECT_DIR$/.idea/modules/-269538654/rpc-core.iml" group="rpc-core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-269538654/rpc-core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-269538654/rpc-core_main.iml" group="rpc-core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-269538654/rpc-core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-269538654/rpc-core_test.iml" group="rpc-core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2044444535/rpc-monitor.iml" filepath="$PROJECT_DIR$/.idea/modules/2044444535/rpc-monitor.iml" group="rpc-monitor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2044444535/rpc-monitor_main.iml" filepath="$PROJECT_DIR$/.idea/modules/2044444535/rpc-monitor_main.iml" group="rpc-monitor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2044444535/rpc-monitor_test.iml" filepath="$PROJECT_DIR$/.idea/modules/2044444535/rpc-monitor_test.iml" group="rpc-monitor" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rpc-web.iml" filepath="$PROJECT_DIR$/.idea/modules/rpc-web.iml" group="rpc-web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rpc-web_main.iml" filepath="$PROJECT_DIR$/.idea/modules/rpc-web_main.iml" group="rpc-web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rpc-web_test.iml" filepath="$PROJECT_DIR$/.idea/modules/rpc-web_test.iml" group="rpc-web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rpc/rpc_main.iml" filepath="$PROJECT_DIR$/.idea/modules/rpc/rpc_main.iml" group="rpc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rpc/rpc_test.iml" filepath="$PROJECT_DIR$/.idea/modules/rpc/rpc_test.iml" group="rpc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/trace/trace.iml" filepath="$PROJECT_DIR$/.idea/modules/trace/trace.iml" group="trace" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/trace/trace_main.iml" filepath="$PROJECT_DIR$/.idea/modules/trace/trace_main.iml" group="trace" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/trace/trace_test.iml" filepath="$PROJECT_DIR$/.idea/modules/trace/trace_test.iml" group="trace" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web.iml" group="web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web_main.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web_main.iml" group="web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web_test.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web_test.iml" group="web" />
+    </modules>
+  </component>
+</project>
