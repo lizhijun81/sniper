@@ -5,7 +5,7 @@ gradle
 out/
 
 # idea
-#.idea/
+.idea/
 *.iml
 
 

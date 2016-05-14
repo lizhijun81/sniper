@@ -1,0 +1,40 @@
+微服务简述:
+
+    微服务一般是分为Api和Server.Api统一提供提供到公有的maven仓库等位置,server则单独部署.
+    例如:订单可以分为Order-Api和Order-Server.Order-Api向外提供,而Order-Server则提供实现,但是其它业务方使用时,只需要导入Order-Api即可.
+    此时就需要将Order-Server发布到一个地方,使其它业务方可以像调用自己本地的实现一样来调用Order-Server服务.
+    由此就引出了,需要通过一个中间方式来通过网络获取具体的实现.
+
+1.  服务实现(具体的业务方自行实现,并提供api)
+2.  服务注册(将服务注册到一个统一的地址,方便进行服务治理)
+3.  服务暴露(将服务的具体实现通过一定的方式暴露给其他业务方)
+4.  服务发现(其他调用方发现服务)
+5.  服务调用(其他调用方调用服务)
+
+RPC过程:
+
+    简述:业务A通过网络调用业务B的服务(AService->rpc->BService)
+    由此可以看出RPC即为:通过一定方式使不同业务方像调用本地服务一样调用网络中其它业务方的服务,RPC屏蔽了不同服务之间调用的细节.
+
+RPC实现
+
+简单过程如下:
+    client -> Request -> RPC -> server -> Response
+
+
+# Doug Lea's scalable io [论文地址](http://gee.cs.oswego.edu/dl/cpjslides/nio.pdf)
+
+大多数的web服务以及分布式系统都使用基本的结构
+
+1.  Read Request
+2.  Decode Request
+3.  Process service
+4.  Encode Response
+5.  Send Response
+
+经典服务设计
+
+阻塞io: 多个client连接到同一个服务器,服务器对输入进行`读->对参数等解码->数据处理->对响应编码->发送响应到客户端`
+client 1,client 2,...client n --> Server --> read decode compute encode send
+非阻塞io: 多个client注册到同一个通道,由通道对数据进行统一的分发,将不同的处理逻辑分发到不同的线程进行处理
+client 1,client 2,...client n --> Reactor --> dispatch-->read or write thread -> handle

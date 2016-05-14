@@ -22,24 +22,20 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="app-web" />
+        <module name="rpc-core" />
+        <module name="rpc-monitor" />
+        <module name="rpc-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="app_main" target="1.8" />
-      <module name="app_test" target="1.8" />
+      <module name="app-all" target="1.8" />
+      <module name="app-rpc" target="1.8" />
+      <module name="app-trace" target="1.8" />
+      <module name="app-web" target="1.8" />
       <module name="rpc-core" target="1.8" />
-      <module name="rpc-core_main" target="1.8" />
-      <module name="rpc-core_test" target="1.8" />
-      <module name="rpc-monitor_main" target="1.8" />
-      <module name="rpc-monitor_test" target="1.8" />
-      <module name="rpc-web_main" target="1.8" />
-      <module name="rpc-web_test" target="1.8" />
-      <module name="rpc_main" target="1.8" />
-      <module name="rpc_test" target="1.8" />
-      <module name="trace_main" target="1.8" />
-      <module name="trace_test" target="1.8" />
-      <module name="web_main" target="1.8" />
-      <module name="web_test" target="1.8" />
+      <module name="rpc-monitor" target="1.8" />
+      <module name="rpc-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
