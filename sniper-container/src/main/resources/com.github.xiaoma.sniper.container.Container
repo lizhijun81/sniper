@@ -1,0 +1,2 @@
+#container
+spring=com.github.xiaoma.sniper.container.support.SpringContainer

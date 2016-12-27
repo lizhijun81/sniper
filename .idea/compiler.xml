@@ -1,41 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <resourceExtensions />
-    <wildcardResourcePatterns>
-      <entry name="!?*.java" />
-      <entry name="!?*.form" />
-      <entry name="!?*.class" />
-      <entry name="!?*.groovy" />
-      <entry name="!?*.scala" />
-      <entry name="!?*.flex" />
-      <entry name="!?*.kt" />
-      <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
-    </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="false">
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="app-web" />
-        <module name="rpc-core" />
-        <module name="rpc-monitor" />
-        <module name="rpc-web" />
+        <module name="sniper-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="app-all" target="1.8" />
-      <module name="app-rpc" target="1.8" />
-      <module name="app-trace" target="1.8" />
-      <module name="app-web" target="1.8" />
-      <module name="rpc-core" target="1.8" />
-      <module name="rpc-monitor" target="1.8" />
-      <module name="rpc-web" target="1.8" />
+      <module name="sniper" target="1.8" />
+      <module name="sniper-core" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

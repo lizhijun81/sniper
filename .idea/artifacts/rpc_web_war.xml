@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="rpc-web:war">
-    <output-path>$PROJECT_DIR$/app-rpc/rpc-web/target</output-path>
-    <root id="archive" name="rpc-web-0.0.1-SNAPSHOT.war">
-      <element id="artifact" artifact-name="rpc-web:war exploded" />
-    </root>
-  </artifact>
-</component>
