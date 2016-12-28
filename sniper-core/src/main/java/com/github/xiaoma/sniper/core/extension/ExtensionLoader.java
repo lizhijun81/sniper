@@ -1,5 +1,7 @@
 package com.github.xiaoma.sniper.core.extension;
 
+import com.github.xiaoma.sniper.core.compiler.Compiler;
+import com.github.xiaoma.sniper.core.utils.Holder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +25,18 @@ public class ExtensionLoader<T> {
     private static final Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
     private static final Map<Class<?>, ExtensionLoader<?>> extensionLoaders = new ConcurrentHashMap<>();
+
     private static final Map<Class<?>, String> cachedNames = new ConcurrentHashMap<>();
-    private static final Map<String, Class<?>> cachedClasses = new ConcurrentHashMap<>();
-    private static final Map<String, Object> cachedInstances = new ConcurrentHashMap<>();
+    private static final Holder<Map<String, Class<?>>> cachedClasses = new Holder<>();
+    private static final Map<String, Holder<Object>> cachedInstances = new ConcurrentHashMap<>();
 
     private final Class<?> type;
     private final ExtensionFactory factory;
 
-    private String cachedName;
+    private final Holder<Object> cachedAdaptiveInstance = new Holder<>();
+    private volatile Throwable createAdaptiveInstanceError = null;
+    private volatile String cachedDefaultName;
+    private volatile Class<?> cachedAdaptiveClass;
 
     private ExtensionLoader(Class<?> type) {
         this.type = type;
@@ -47,34 +53,89 @@ public class ExtensionLoader<T> {
     }
 
     public T getExtension(String name) {
-        T extension = (T) cachedInstances.get(name);
-        if (extension == null) {
-            cachedInstances.putIfAbsent(name, createExtension(name));
-            extension = (T) cachedInstances.get(name);
+        if (name == null || name.trim().length() == 0) {
+            throw new IllegalArgumentException("Extension name == null");
         }
-        return extension;
+        if ("true".equals(name)) {
+            return getDefaultExtension();
+        }
+        Holder<Object> holder = cachedInstances.get(name);
+        if (holder == null) {
+            cachedInstances.putIfAbsent(name, new Holder<>());
+            holder = cachedInstances.get(name);
+        }
+        Object instance = holder.get();
+        if (instance == null) {
+            synchronized (holder) {
+                instance = holder.get();
+                if (instance == null) {
+                    instance = createExtension(name);
+                    holder.set(instance);
+                }
+            }
+        }
+        return (T) instance;
     }
 
-//    public T getAdaptiveExtension() {
-//        return createAdaptiveExtension();
-//    }
-//
-//    private T createAdaptiveExtension() {
-//        getExtensionClasses();
-//
-//        try {
-//            T instance = (T) getAdaptiveExtensionClass().newInstance();
-//            return injectExtension(instance);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new IllegalStateException("");
-//        }
-//    }
-//
-//    private Class<?> getAdaptiveExtensionClass() {
-//
-//        return null;
-//    }
+    public T getAdaptiveExtension() {
+        Object instance = cachedAdaptiveInstance.get();
+        if (instance == null) {
+            if (createAdaptiveInstanceError != null) {
+                throw new IllegalStateException("fail to create adaptive instance: " + createAdaptiveInstanceError.getMessage(), createAdaptiveInstanceError);
+            }
+            synchronized (cachedAdaptiveInstance) {
+                instance = cachedAdaptiveInstance.get();
+                if (instance == null) {
+                    try {
+                        instance = createAdaptiveExtension();
+                        cachedAdaptiveInstance.set(instance);
+                    } catch (Throwable e) {
+                        createAdaptiveInstanceError = e;
+                        throw new IllegalStateException("fail to create adaptive instance: " + e.getMessage(), e);
+                    }
+                }
+            }
+        }
+        return (T) instance;
+    }
+
+    public T getDefaultExtension() {
+        getExtensionClasses();
+        if (cachedDefaultName == null || cachedDefaultName.length() == 0 || "true".equals(cachedDefaultName)) {
+            return null;
+        }
+        return getExtension(cachedDefaultName);
+    }
+
+
+    private Class<?> getAdaptiveExtensionClass() {
+        getExtensionClasses();
+        if (cachedAdaptiveClass != null) {
+            return cachedAdaptiveClass;
+        }
+        return cachedAdaptiveClass = createAdaptiveExtensionClass();
+    }
+
+    private T createAdaptiveExtension() {
+        try {
+            T instance = (T) getAdaptiveExtensionClass().newInstance();
+            return injectExtension(instance);
+        } catch (Exception e) {
+            logger.error("", e);
+            throw new IllegalStateException("");
+        }
+    }
+
+    private Class<?> createAdaptiveExtensionClass() {
+        String code = createAdaptiveExtensionClassCode();
+        ClassLoader classLoader = findClassLoader();
+        Compiler compiler = ExtensionLoader.getExtensionLoader(Compiler.class).getAdaptiveExtension();
+        return compiler.compile(code, classLoader);
+    }
+
+    private String createAdaptiveExtensionClassCode() {
+        return null;
+    }
 
     private T createExtension(String name) {
         Class<?> cls = getExtensionClasses().get(name);
@@ -99,7 +160,7 @@ public class ExtensionLoader<T> {
                     && Modifier.isPublic(method.getModifiers())) { // public void setAbc(Object obj){}
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 String property = methodName.length() > 3 ? methodName.substring(3, 4).toLowerCase() + methodName.substring(4) : "";
-                Object obj = factory.getExtension(parameterTypes[0], "");
+                Object obj = factory.getExtension(parameterTypes[0], property);
                 if (obj != null) {
                     try {
                         method.invoke(instance, obj);
@@ -113,11 +174,17 @@ public class ExtensionLoader<T> {
     }
 
     private Map<String, Class<?>> getExtensionClasses() {
-        if (cachedClasses.isEmpty()) {
-            Map<String, Class<?>> classes = loadExtensionClasses();
-            cachedClasses.putAll(classes);
+        Map<String, Class<?>> classes = cachedClasses.get();
+        if (classes == null) {
+            synchronized (cachedClasses) {
+                classes = cachedClasses.get();
+                if (classes == null) {
+                    classes = loadExtensionClasses();
+                    cachedClasses.set(classes);
+                }
+            }
         }
-        return cachedClasses;
+        return classes;
     }
 
     private Map<String, Class<?>> loadExtensionClasses() {
@@ -125,11 +192,11 @@ public class ExtensionLoader<T> {
         if (spi != null) {
             String defaultSPIName = spi.value().trim();
             if (defaultSPIName.length() > 0) {
-                cachedName = defaultSPIName;
+                cachedDefaultName = defaultSPIName;
             }
         }
         Map<String, Class<?>> extensionClasses = new HashMap<>();
-        loadFile(extensionClasses, "");
+        loadFile(extensionClasses, ""); // resources目录下
         loadFile(extensionClasses, "META-INF/services/");
         loadFile(extensionClasses, "META-INF/sniper/");
         return extensionClasses;
@@ -145,7 +212,6 @@ public class ExtensionLoader<T> {
             } else {
                 urls = ClassLoader.getSystemResources(fileName);
             }
-            System.out.println(urls);
             if (urls == null) {
                 return;
             }
@@ -156,22 +222,30 @@ public class ExtensionLoader<T> {
                     String line;
                     while ((line = reader.readLine()) != null && (line = line.trim()).length() > 0) {
                         if (line.indexOf('#') == 0) {
-                            logger.debug("This line:`{}` is note", line);
+                            logger.debug("This line:`{}` is comment", line);
                             continue;
                         }
                         int i = line.indexOf('=');
                         String name = line.substring(0, i).trim();
                         String clsName = line.substring(i + 1).trim();
                         Class<?> cls = Class.forName(clsName, true, classLoader);
+                        if (!type.isAssignableFrom(cls)) {
+                            throw new IllegalStateException(cls.getName() + " is not subtype of interface:" + type);
+                        }
+                        if (cls.isAnnotationPresent(Adaptive.class)) {
+                            if (cachedAdaptiveClass == null) {
+                                cachedAdaptiveClass = cls;
+                            }
+                        }
                         extensionClasses.put(name, cls);
                         logger.info("{}:{} initialized.", name, clsName);
                     }
                 } catch (IOException ex) {
-
+                    logger.error("", ex);
                 }
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
 
     }

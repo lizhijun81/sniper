@@ -1,0 +1,2 @@
+jdk=com.github.xiaoma.sniper.core.compiler.support.JdkCompiler
+javassist=com.github.xiaoma.sniper.core.compiler.support.JavassistCompiler
