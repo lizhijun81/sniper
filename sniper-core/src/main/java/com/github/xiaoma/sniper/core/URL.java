@@ -57,6 +57,28 @@ public final class URL {
         return value;
     }
 
+    public int getParameter(String key, int defaultValue) {
+        String value = getParameter(key);
+        int result;
+        try {
+            result = Integer.parseInt(value);
+        } catch (Exception ex) {
+            result = defaultValue;
+        }
+        return result;
+    }
+
+    public long getParameter(String key, long defaultValue) {
+        String value = getParameter(key);
+        long result;
+        try {
+            result = Integer.parseInt(value);
+        } catch (Exception ex) {
+            result = defaultValue;
+        }
+        return result;
+    }
+
     public String getParameter(String key, String defaultValue) {
         String value = getParameter(key);
         value = value == null || value.trim().length() == 0 ? defaultValue : value;

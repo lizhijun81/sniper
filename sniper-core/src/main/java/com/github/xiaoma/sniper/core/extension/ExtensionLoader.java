@@ -135,7 +135,7 @@ public class ExtensionLoader<T> {
             return injectExtension(instance);
         } catch (Exception e) {
             logger.error("", e);
-            throw new IllegalStateException("");
+            throw new IllegalStateException("", e);
         }
     }
 
@@ -239,7 +239,7 @@ public class ExtensionLoader<T> {
                     String line;
                     while ((line = reader.readLine()) != null && (line = line.trim()).length() > 0) {
                         if (line.indexOf('#') == 0) {
-                            logger.debug("This line:`{}` is comment", line);
+                            logger.debug("The line:`{}` at file: `" + fileName + "` is a comment", line);
                             continue;
                         }
                         int i = line.indexOf('=');
@@ -249,14 +249,14 @@ public class ExtensionLoader<T> {
                         if (!type.isAssignableFrom(cls)) {
                             throw new IllegalStateException(cls.getName() + " is not subtype of interface:" + type);
                         }
-                        if (cls.isAnnotationPresent(Adaptive.class)) {
+                        if (cls.isAnnotationPresent(Adaptive.class) || name.equals(cachedDefaultName)) {
                             if (cachedAdaptiveClass == null) {
                                 cachedAdaptiveClass = cls;
                             } else if (!cachedAdaptiveClass.equals(cls)) {
                                 throw new IllegalStateException("More than 1 adaptive class found: " + cachedAdaptiveClass.getClass().getName() + ", " + cls.getClass().getName());
                             }
                         }
-                        name = name.length() > 0 ? name : cls.getName(); // 兼容 META-INF/services下，无name的情况
+                        name = name.length() > 0 ? name : cls.getSimpleName(); // 兼容 META-INF/services下，无name的情况
                         extensionClasses.put(name, cls);
                         logger.info("{}:{} initialized.", name, clsName);
                     }

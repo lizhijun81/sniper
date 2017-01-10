@@ -29,4 +29,12 @@ public enum Constants {
     public static final String  EXCHANGER_KEY                      = "exchanger";
 
     public static final String  DEFAULT_EXCHANGER                  = "header";
+
+    public static final String  HEARTBEAT_KEY                      = "heartbeat";
+
+    public static final String  HEARTBEAT_TIMEOUT_KEY              = "heartbeat.timeout";
+
+    // read from channel,write to channel timestamp
+    public static final String KEY_READ_TIMESTAMP                  = "read_timestamp";
+    public static final String KEY_WRITE_TIMESTAMP                 = "write_timestamp";
 }

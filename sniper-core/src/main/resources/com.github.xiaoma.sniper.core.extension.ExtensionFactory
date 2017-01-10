@@ -1,1 +1,2 @@
+# ExtensionFactory
 spi=com.github.xiaoma.sniper.core.extension.support.SpiExtensionFactory

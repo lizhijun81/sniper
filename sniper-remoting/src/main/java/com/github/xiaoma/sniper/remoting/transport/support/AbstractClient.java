@@ -82,6 +82,11 @@ public abstract class AbstractClient implements Client {
 
     }
 
+    @Override
+    public void reset(URL url) {
+
+    }
+
     protected abstract void doOpen() throws Throwable;
 
     protected abstract void doClose() throws Throwable;
