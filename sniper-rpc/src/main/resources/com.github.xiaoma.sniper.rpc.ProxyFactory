@@ -1,0 +1,2 @@
+jdk=com.github.xiaoma.sniper.rpc.proxy.support.JdkProxyFactory
+javassist=com.github.xiaoma.sniper.rpc.proxy.support.JavassistProxyFactory

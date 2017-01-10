@@ -12,20 +12,20 @@ public interface Exchanger {
     /**
      * Bind a server.
      *
-     * @param url      server url
-     * @param listener
+     * @param url     server url
+     * @param handler
      * @return server
      * @throws RemotingException
      */
-    ExchangeServer bind(URL url, ExchangeListener listener) throws RemotingException;
+    ExchangeServer bind(URL url, ExchangeHandler handler) throws RemotingException;
 
     /**
      * Connect to a server.
      *
-     * @param url      server url
-     * @param listener
+     * @param url     server url
+     * @param handler
      * @return client
      * @throws RemotingException
      */
-    ExchangeClient connect(URL url, ExchangeListener listener) throws RemotingException;
+    ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException;
 }

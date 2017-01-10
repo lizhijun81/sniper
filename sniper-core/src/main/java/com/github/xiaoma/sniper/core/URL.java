@@ -44,4 +44,30 @@ public final class URL {
     }
 
 
+    public boolean hasParameter(String key) {
+        String value = getParameter(key);
+        return value == null || value.trim().length() == 0;
+    }
+
+    public String getParameter(String key) {
+        String value = parameters.get(key);
+        if (value == null || value.length() == 0) {
+            value = parameters.get(Constants.DEFAULT_KEY_PREFIX + key);
+        }
+        return value;
+    }
+
+    public String getParameter(String key, String defaultValue) {
+        String value = getParameter(key);
+        value = value == null || value.trim().length() == 0 ? defaultValue : value;
+        return value;
+    }
+
+    public int getMethodParameter(String methodName, String key, int defaultValue) {
+        return 0;
+    }
+
+    public String getAddress() {
+        return port <= 0 ? host : host + ":" + port;
+    }
 }
