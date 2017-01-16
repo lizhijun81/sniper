@@ -1,6 +1,7 @@
 package com.github.xiaoma.sniper.remoting.transport.support;
 
 import com.github.xiaoma.sniper.remoting.Channel;
+import com.github.xiaoma.sniper.remoting.ChannelListener;
 import com.github.xiaoma.sniper.remoting.Client;
 import com.github.xiaoma.sniper.remoting.RemotingException;
 import com.github.xiaoma.sniper.core.URL;
@@ -85,6 +86,11 @@ public abstract class AbstractClient implements Client {
     @Override
     public void reset(URL url) {
 
+    }
+
+    @Override
+    public ChannelListener getChannelListener() {
+        return null;
     }
 
     protected abstract void doOpen() throws Throwable;

@@ -37,8 +37,4 @@ public class NioClient extends AbstractClient {
         return null;
     }
 
-    @Override
-    public ChannelListener getChannelListener() {
-        return null;
-    }
 }

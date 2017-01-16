@@ -62,6 +62,10 @@ public abstract class AbstractServer extends AbstractPeer implements Server {
         return false;
     }
 
+    @Override
+    public void reset(URL url) {
+
+    }
 
     protected abstract void doOpen() throws Throwable;
 

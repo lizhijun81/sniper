@@ -1,5 +1,6 @@
 package com.github.xiaoma.sniper.remoting.transport.support;
 
+import com.github.xiaoma.sniper.core.utils.NetUtils;
 import com.github.xiaoma.sniper.remoting.Channel;
 import com.github.xiaoma.sniper.remoting.ChannelListener;
 import com.github.xiaoma.sniper.remoting.RemotingException;
@@ -11,6 +12,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by machunxiao on 16/12/26.
@@ -28,11 +31,14 @@ public class NioServer extends AbstractServer {
 
     private boolean isBound;
 
+    private Map<String, Channel> channels;
+
 
     public NioServer(URL url, ChannelListener listener) throws RemotingException {
         super(url, listener);
         this.url = url;
         this.listener = listener;
+        this.channels = new HashMap<>();
     }
 
     @Override
@@ -65,6 +71,6 @@ public class NioServer extends AbstractServer {
 
     @Override
     public Channel getChannel(InetSocketAddress remoteAddress) {
-        return null;
+        return channels.get(NetUtils.addressToString(remoteAddress));
     }
 }

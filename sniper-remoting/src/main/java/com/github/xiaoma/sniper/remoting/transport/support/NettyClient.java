@@ -37,8 +37,5 @@ public class NettyClient extends AbstractClient {
         return null;
     }
 
-    @Override
-    public ChannelListener getChannelListener() {
-        return null;
-    }
+
 }
