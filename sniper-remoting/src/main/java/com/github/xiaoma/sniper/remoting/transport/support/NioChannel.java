@@ -6,6 +6,7 @@ import com.github.xiaoma.sniper.remoting.RemotingException;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -70,7 +71,12 @@ public class NioChannel extends AbstractChannel {
     public void send(Object message, boolean sent) throws RemotingException {
         super.send(message, sent);
 
-        SocketChannel sc = null;
+        try {
+            SocketChannel sc = SocketChannel.open();
+            sc.write(ByteBuffer.wrap("".getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

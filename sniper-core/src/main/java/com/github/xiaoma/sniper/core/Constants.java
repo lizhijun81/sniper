@@ -37,4 +37,9 @@ public enum Constants {
     // read from channel,write to channel timestamp
     public static final String KEY_READ_TIMESTAMP                  = "read_timestamp";
     public static final String KEY_WRITE_TIMESTAMP                 = "write_timestamp";
+
+    public static final String CODEC_KEY                           = "codec";
+    public static final String SERIALIZATION_KEY                   = "serialization";
+    public static final String DEFAULT_SERIALIZATION               = "protobuf";
+
 }

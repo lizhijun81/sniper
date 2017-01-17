@@ -62,6 +62,8 @@
         <jsoniter.version>0.9.2</jsoniter.version>
         <lombok.version>1.16.12</lombok.version>
         <javassist.version>3.21.0-GA</javassist.version>
+        <protostuff.version>1.0.12</protostuff.version>
+        <objenesis.version>2.5</objenesis.version>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +78,38 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-api</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-core</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-collectionschema</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-json</artifactId>
+                <version>${protostuff.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>${objenesis.version}</version>
             </dependency>
 
             <!-- slf4j -->

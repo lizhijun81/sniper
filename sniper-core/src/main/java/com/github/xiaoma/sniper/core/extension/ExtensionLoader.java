@@ -238,10 +238,16 @@ public class ExtensionLoader<T> {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
                     String line;
                     while ((line = reader.readLine()) != null && (line = line.trim()).length() > 0) {
-                        if (line.indexOf('#') == 0) {
+                        // 去除以 `#` 开始
+                        if (line.charAt(0) == '#') {
                             logger.debug("The line:`{}` at file: `" + fileName + "` is a comment", line);
                             continue;
                         }
+                        // 去除`#`以后的
+                        int j = line.indexOf('#');
+                        if (j >= 0) line = line.substring(0, j);
+
+                        line = line.trim();
                         int i = line.indexOf('=');
                         String name = line.substring(0, i).trim();
                         String clsName = line.substring(i + 1).trim();
@@ -249,6 +255,10 @@ public class ExtensionLoader<T> {
                         if (!type.isAssignableFrom(cls)) {
                             throw new IllegalStateException(cls.getName() + " is not subtype of interface:" + type);
                         }
+
+                        // 兼容 META-INF/services下，无name的情况
+                        name = name.length() > 0 ? name : cls.getCanonicalName();
+
                         if (cls.isAnnotationPresent(Adaptive.class) || name.equals(cachedDefaultName)) {
                             if (cachedAdaptiveClass == null) {
                                 cachedAdaptiveClass = cls;
@@ -256,7 +266,6 @@ public class ExtensionLoader<T> {
                                 throw new IllegalStateException("More than 1 adaptive class found: " + cachedAdaptiveClass.getClass().getName() + ", " + cls.getClass().getName());
                             }
                         }
-                        name = name.length() > 0 ? name : cls.getSimpleName(); // 兼容 META-INF/services下，无name的情况
                         extensionClasses.put(name, cls);
                         logger.info("{}:{} initialized.", name, clsName);
                     }
