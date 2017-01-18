@@ -10,7 +10,6 @@ import com.github.xiaoma.sniper.remoting.*;
 public abstract class AbstractPeer implements Endpoint, ChannelListener {
 
     private final ChannelListener listener;
-    private final Codec codec;
     private volatile URL url;
     private volatile boolean closed;
 
@@ -23,7 +22,7 @@ public abstract class AbstractPeer implements Endpoint, ChannelListener {
         }
         this.url = url;
         this.listener = listener;
-        this.codec = getChannelCodec(url);
+
     }
 
     @Override
@@ -90,12 +89,4 @@ public abstract class AbstractPeer implements Endpoint, ChannelListener {
         listener.caught(channel, exception);
     }
 
-    protected Codec getChannelCodec(URL url) {
-        String codecName = url.getParameter(Constants.CODEC_KEY, "exchange");
-        return ExtensionLoader.getExtensionLoader(Codec.class).getExtension(codecName);
-    }
-
-    protected Codec getCodec() {
-        return codec;
-    }
 }

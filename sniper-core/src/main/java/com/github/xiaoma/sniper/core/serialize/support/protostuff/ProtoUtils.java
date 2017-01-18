@@ -8,7 +8,6 @@ import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -16,20 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public enum ProtoUtils {
     ;
-    private static final Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
 
     private static final Objenesis objenesis = new ObjenesisStd(true);
 
+    @SuppressWarnings("unchecked")
     private static <T> Schema<T> getSchema(Class<T> clazz) {
-        @SuppressWarnings("unchecked")
-        Schema<T> schema = (Schema<T>) cachedSchema.get(clazz);
-        if (schema == null) {
-            schema = RuntimeSchema.getSchema(clazz);
-            if (schema != null) {
-                cachedSchema.put(clazz, schema);
-            }
-        }
-        return schema;
+        return (Schema<T>) cachedSchema.computeIfAbsent(clazz, RuntimeSchema::getSchema);
     }
 
     /**

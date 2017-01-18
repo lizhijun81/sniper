@@ -39,6 +39,7 @@ public enum Constants {
     public static final String KEY_WRITE_TIMESTAMP                 = "write_timestamp";
 
     public static final String CODEC_KEY                           = "codec";
+    public static final String CODEC_DEFAULT_KEY                   = "nio";
     public static final String SERIALIZATION_KEY                   = "serialization";
     public static final String DEFAULT_SERIALIZATION               = "protobuf";
 

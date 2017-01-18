@@ -5,7 +5,8 @@ import java.net.InetSocketAddress;
 /**
  * Created by machunxiao on 17/1/16.
  */
-public class NetUtils {
+public enum NetUtils {
+    ;
 
     public static String addressToString(InetSocketAddress address) {
         return address.getAddress().getHostAddress() + ":" + address.getPort();

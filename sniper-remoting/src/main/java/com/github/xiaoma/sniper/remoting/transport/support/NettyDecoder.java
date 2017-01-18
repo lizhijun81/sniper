@@ -1,6 +1,8 @@
 package com.github.xiaoma.sniper.remoting.transport.support;
 
+import com.github.xiaoma.sniper.core.URL;
 import com.github.xiaoma.sniper.remoting.Channel;
+import com.github.xiaoma.sniper.remoting.ChannelListener;
 import com.github.xiaoma.sniper.remoting.Codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,11 +19,13 @@ public class NettyDecoder extends ByteToMessageDecoder {
     private static final int HEAD_LENGTH = 4;
 
     private final Codec codec;
-    private final Channel client;
+    private final URL url;
+    private final ChannelListener listener;
 
-    public NettyDecoder(Codec codec, Channel client) {
+    public NettyDecoder(Codec codec, URL url, ChannelListener listener) {
         this.codec = codec;
-        this.client = client;
+        this.url = url;
+        this.listener = listener;
     }
 
     @Override
@@ -29,7 +33,7 @@ public class NettyDecoder extends ByteToMessageDecoder {
         if (in.readableBytes() < HEAD_LENGTH) { //这个HEAD_LENGTH是我们用于表示头长度的字节数。  由于上面我们传的是一个int类型的值，所以这里HEAD_LENGTH的值为4.
             return;
         }
-        in.markReaderIndex();                   // 我们标记一下当前的readIndex的位置
+        in.markReaderIndex();                   // 标记一下当前的readIndex的位置
         int dataLength = in.readInt();          // 读取传送过来的消息的长度。ByteBuf 的readInt()方法会让他的readIndex增加4
         if (dataLength < 0) {                   // 我们读到的消息体长度为0，这是不应该出现的情况，这里出现这情况，关闭连接。
             chc.close();
@@ -43,7 +47,8 @@ public class NettyDecoder extends ByteToMessageDecoder {
         byte[] body = new byte[dataLength];         // 取出满足长度的字节
         in.readBytes(body);                         //
         ByteBuffer buffer = ByteBuffer.wrap(body);
-        Object o = codec.decode(client, buffer);    // 将byte数据转化为我们需要的对象
+        NettyChannel channel = NettyChannel.getChannel(chc.channel(), url, listener);
+        Object o = codec.decode(channel, buffer);    // 将byte数据转化为我们需要的对象
         out.add(o);
     }
 }

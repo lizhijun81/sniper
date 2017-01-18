@@ -10,6 +10,7 @@ import com.github.xiaoma.sniper.core.URL;
 public class NioClient extends AbstractClient {
 
     public NioClient(URL url, ChannelListener listener) {
+        super(url, listener);
     }
 
     @Override

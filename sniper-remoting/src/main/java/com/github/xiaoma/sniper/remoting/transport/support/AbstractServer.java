@@ -10,10 +10,14 @@ import java.net.InetSocketAddress;
 /**
  * Created by machunxiao on 16/12/26.
  */
-public abstract class AbstractServer extends AbstractPeer implements Server {
+public abstract class AbstractServer extends AbstractEndpoint implements Server {
+
+    private InetSocketAddress bindAddress;
 
     public AbstractServer(URL url, ChannelListener listener) throws RemotingException {
         super(url, listener);
+        String host = getUrl().getHost();
+        bindAddress = new InetSocketAddress(host, getUrl().getPort());
         try {
             doOpen();
         } catch (Throwable ex) {
@@ -65,6 +69,10 @@ public abstract class AbstractServer extends AbstractPeer implements Server {
     @Override
     public void reset(URL url) {
 
+    }
+
+    public InetSocketAddress getBindAddress() {
+        return bindAddress;
     }
 
     protected abstract void doOpen() throws Throwable;

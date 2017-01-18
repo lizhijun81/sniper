@@ -44,15 +44,17 @@ public class NettyServer extends AbstractServer {
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
                             // 注册handler
-                            ch.pipeline().addLast("encoder", new NettyEncoder<>(getCodec(), null));
-                            ch.pipeline().addLast("decoder", new NettyDecoder(getCodec(), null));
+                            ChannelListener listener = NettyServer.this;
+                            ch.pipeline().addLast("encoder", new NettyEncoder<>(getCodec(), url, listener));
+                            ch.pipeline().addLast("decoder", new NettyDecoder(getCodec(), url, listener));
                         }
                     })
                     .option(ChannelOption.TCP_NODELAY, true)
                     .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
+                    .childOption(ChannelOption.TCP_NODELAY, true);
 
-            ChannelFuture f = b.bind(url.getPort()).sync();
+            ChannelFuture f = b.bind(getBindAddress()).sync();
 
             f.channel().closeFuture().sync();
         } finally {

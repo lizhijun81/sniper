@@ -11,7 +11,11 @@ import java.net.InetSocketAddress;
 /**
  * Created by machunxiao on 16/12/26.
  */
-public abstract class AbstractClient implements Client {
+public abstract class AbstractClient extends AbstractEndpoint implements Client {
+
+    public AbstractClient(URL url, ChannelListener listener) {
+        super(url, listener);
+    }
 
     @Override
     public URL getUrl() {

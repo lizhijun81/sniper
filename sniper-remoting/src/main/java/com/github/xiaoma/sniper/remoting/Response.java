@@ -1,49 +1,26 @@
 package com.github.xiaoma.sniper.remoting;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created by machunxiao on 2017/1/10.
  */
 @Setter
 @Getter
-public class Response {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Response implements Serializable {
 
-    private long reqId = 0;
-    private String version = null;
-    private Object result = null;
-    private byte status = 10;
+    private static final long serialVersionUID = 471061416515213021L;
 
-    public long getReqId() {
-        return reqId;
-    }
-
-    public void setReqId(long reqId) {
-        this.reqId = reqId;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
-    }
-
-    public byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(byte status) {
-        this.status = status;
-    }
+    private long requestId;
+    private Object value;
+    private Throwable exception;
+    private Map<String, String> attachments;
 }

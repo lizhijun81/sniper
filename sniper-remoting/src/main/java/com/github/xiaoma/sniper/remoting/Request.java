@@ -1,53 +1,29 @@
 package com.github.xiaoma.sniper.remoting;
 
-import java.util.concurrent.atomic.AtomicLong;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created by machunxiao on 2017/1/10.
  */
-public class Request {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Request implements Serializable {
 
-    private static final AtomicLong invoke_id = new AtomicLong(0);
+    private static final long serialVersionUID = 1393951513915969562L;
 
+    private long requestId;
+    private String interfaceName;
+    private String methodName;
+    private String parameterTypes;
+    private Object[] arguments;
+    private Map<String, String> attachments;
 
-    private final long reqId;
-    private String version;
-    private Object data;
-
-    public Request() {
-        this.reqId = invoke_id.getAndIncrement();
-    }
-
-    public Request(long reqId) {
-        this.reqId = reqId;
-    }
-
-    public long getReqId() {
-        return reqId;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return "Request{" +
-                "reqId=" + reqId +
-                ", version='" + version + '\'' +
-                ", data=" + data +
-                '}';
-    }
 }

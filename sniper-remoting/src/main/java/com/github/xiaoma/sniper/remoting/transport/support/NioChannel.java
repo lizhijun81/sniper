@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by machunxiao on 17/1/16.
  */
-public class NioChannel extends AbstractChannel {
+final class NioChannel extends AbstractChannel {
 
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
 

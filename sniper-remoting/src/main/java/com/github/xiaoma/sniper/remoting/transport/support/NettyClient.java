@@ -10,6 +10,7 @@ import com.github.xiaoma.sniper.core.URL;
 public class NettyClient extends AbstractClient {
 
     public NettyClient(URL url, ChannelListener listener) {
+        super(url, listener);
     }
 
     @Override

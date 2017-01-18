@@ -41,8 +41,8 @@ final class HeartbeatTask implements Runnable {
                             || (lastWrite != null && now - lastWrite > heartbeat)) {
 
                         Request request = new Request();
-                        request.setVersion("1.0.0");
-                        request.setData("heartbeat");
+//                        request.setVersion("1.0.0");
+//                        request.setData("heartbeat");
 
                         channel.send(request);
 
