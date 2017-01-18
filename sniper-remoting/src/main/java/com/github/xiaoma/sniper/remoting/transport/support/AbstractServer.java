@@ -16,9 +16,9 @@ public abstract class AbstractServer extends AbstractPeer implements Server {
         super(url, listener);
         try {
             doOpen();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            throw new RemotingException();
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            throw new RemotingException(null, null);
         }
     }
 

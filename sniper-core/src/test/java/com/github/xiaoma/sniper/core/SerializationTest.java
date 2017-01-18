@@ -21,7 +21,7 @@ public class SerializationTest {
             testSerialization(java);
         }
         long end = System.currentTimeMillis();
-        System.out.println("Java 100w次：" + (end - start));
+        System.out.println("id:" + java.getContentTypeId() + "Java 100w次：" + (end - start));
     }
 
     @Test
@@ -32,18 +32,18 @@ public class SerializationTest {
             testSerialization(proto);
         }
         long end = System.currentTimeMillis();
-        System.out.println("Proto 100w次：" + (end - start));
+        System.out.println("id:" + proto.getContentTypeId() + "Proto 100w次：" + (end - start));
     }
 
     @Test
     public void testKryo() {
-        Serialization serialization = new KryoSerialization();
+        Serialization kryo = new KryoSerialization();
         long start = System.currentTimeMillis();
         for (int i = 0; i < 1000000; i++) {
-            testSerialization(serialization);
+            testSerialization(kryo);
         }
         long end = System.currentTimeMillis();
-        System.out.println("Kryo 100w次：" + (end - start));
+        System.out.println("id:" + kryo.getContentTypeId() + "Kryo 100w次：" + (end - start));
     }
 
 

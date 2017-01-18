@@ -4,6 +4,14 @@ import com.github.xiaoma.sniper.remoting.Channel;
 import com.github.xiaoma.sniper.remoting.ChannelListener;
 import com.github.xiaoma.sniper.remoting.RemotingException;
 import com.github.xiaoma.sniper.core.URL;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
@@ -13,12 +21,44 @@ import java.util.Collection;
  */
 public class NettyServer extends AbstractServer {
 
+    private ServerBootstrap serverBootstrap;
+    private final URL url;
+    private final ChannelListener listener;
+
     public NettyServer(URL url, ChannelListener listener) throws RemotingException {
         super(url, listener);
+        this.url = url;
+        this.listener = listener;
     }
 
     @Override
     protected void doOpen() throws Throwable {
+        EventLoopGroup boss = new NioEventLoopGroup();
+        EventLoopGroup worker = new NioEventLoopGroup();
+
+        try {
+            ServerBootstrap b = new ServerBootstrap();
+            b.group(boss, worker).channel(NioServerSocketChannel.class)
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(SocketChannel ch)
+                                throws Exception {
+                            // 注册handler
+                            ch.pipeline().addLast("encoder", new NettyEncoder<>(getCodec(), null));
+                            ch.pipeline().addLast("decoder", new NettyDecoder(getCodec(), null));
+                        }
+                    })
+                    .option(ChannelOption.TCP_NODELAY, true)
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+
+            ChannelFuture f = b.bind(url.getPort()).sync();
+
+            f.channel().closeFuture().sync();
+        } finally {
+            worker.shutdownGracefully();
+            boss.shutdownGracefully();
+        }
 
     }
 
