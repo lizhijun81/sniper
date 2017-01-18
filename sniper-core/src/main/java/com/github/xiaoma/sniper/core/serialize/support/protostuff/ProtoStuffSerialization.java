@@ -12,7 +12,7 @@ public class ProtoStuffSerialization implements Serialization {
 
     @Override
     public byte getContentTypeId() {
-        return 2;
+        return 3;
     }
 
     @Override
