@@ -1,4 +1,4 @@
-package com.github.xiaoma.sniper.core.utils;
+package com.github.xiaoma.sniper.core.serialize.support.protostuff;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
@@ -7,18 +7,18 @@ import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
-import java.io.OutputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by machunxiao on 17/1/17.
  */
-public class SerializationUtil {
+public enum ProtoUtils {
+    ;
+    private static final Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
 
-    private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
-
-    private static Objenesis objenesis = new ObjenesisStd(true);
+    private static final Objenesis objenesis = new ObjenesisStd(true);
 
     private static <T> Schema<T> getSchema(Class<T> clazz) {
         @SuppressWarnings("unchecked")
@@ -38,16 +38,15 @@ public class SerializationUtil {
      * @param obj
      * @return
      */
-    public static <T> byte[] serializer(T obj, OutputStream os) {
+    public static <T> byte[] serializer(T obj) throws IOException {
         @SuppressWarnings("unchecked")
         Class<T> clazz = (Class<T>) obj.getClass();
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         try {
             Schema<T> schema = getSchema(clazz);
-            ProtostuffIOUtil.writeTo(os, obj, schema, buffer);
-            return null;
+            return ProtostuffIOUtil.toByteArray(obj, schema, buffer);
         } catch (Exception e) {
-            throw new IllegalStateException(e.getMessage(), e);
+            throw new IOException(e.getMessage(), e);
         } finally {
             buffer.clear();
         }
@@ -60,15 +59,14 @@ public class SerializationUtil {
      * @param clazz
      * @return
      */
-    public static <T> T deserializer(byte[] data, Class<T> clazz) {
+    public static <T> T deserializer(byte[] data, Class<T> clazz) throws IOException {
         try {
-//            T obj = objenesis.newInstance(clazz);
-//            Schema<T> schema = getSchema(clazz);
-//            ProtostuffIOUtil.mergeFrom(data, obj, schema);
-//            ProtostuffIOUtil.mergeFrom();
-            return null;
+            T obj = objenesis.newInstance(clazz);
+            Schema<T> schema = getSchema(clazz);
+            ProtostuffIOUtil.mergeFrom(data, obj, schema);
+            return obj;
         } catch (Exception e) {
-            throw new IllegalStateException(e.getMessage(), e);
+            throw new IOException(e.getMessage(), e);
         }
     }
 }

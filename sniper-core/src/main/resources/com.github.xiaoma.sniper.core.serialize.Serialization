@@ -1,0 +1,2 @@
+protostuff=com.github.xiaoma.sniper.core.serialize.support.protostuff.ProtoStuffSerialization
+java=com.github.xiaoma.sniper.core.serialize.support.java.JavaSerialization

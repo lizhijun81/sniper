@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
 public interface Codec {
 
     @Adaptive({Constants.CODEC_KEY})
-    void encode(Channel channel, ByteBuffer buffer, Object message) throws IOException;
+    byte[] encode(Channel channel, ByteBuffer buffer, Object message) throws IOException;
 
     @Adaptive({Constants.CODEC_KEY})
     Object decode(Channel channel, ByteBuffer buffer) throws IOException;

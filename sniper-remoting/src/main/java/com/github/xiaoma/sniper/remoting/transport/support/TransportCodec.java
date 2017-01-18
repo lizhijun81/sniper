@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
- * Created by machunxiao on 17/1/17.
+ * Created by machunxiao on 17/1/18.
  */
-public class NioCodec extends AbstractCodec {
+public class TransportCodec extends AbstractCodec {
 
     @Override
     public byte[] encode(Channel channel, ByteBuffer buffer, Object message) throws IOException {

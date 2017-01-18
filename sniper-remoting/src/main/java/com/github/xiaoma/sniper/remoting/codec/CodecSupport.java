@@ -1,4 +1,4 @@
-package com.github.xiaoma.sniper.remoting.transport.support;
+package com.github.xiaoma.sniper.remoting.codec;
 
 import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.core.URL;
