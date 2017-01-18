@@ -6,6 +6,7 @@ import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -40,7 +41,7 @@ public enum KryoUtils {
     }
 
     public static <T> T deserialize(byte[] data, Class<T> type) throws IOException {
-        try (Input input = new Input(data)) {
+        try (Input input = new Input(new ByteArrayInputStream(data))) {
             Kryo kryo = pool.borrow();
             return kryo.readObject(input, type);
         }
