@@ -41,7 +41,9 @@ public enum KryoUtils {
     }
 
     public static <T> T deserialize(byte[] data, Class<T> type) throws IOException {
-        try (Input input = new Input(new ByteArrayInputStream(data))) {
+
+        try (ByteArrayInputStream baos = new ByteArrayInputStream(data);
+             Input input = new Input(baos)) {
             Kryo kryo = pool.borrow();
             return kryo.readObject(input, type);
         }
