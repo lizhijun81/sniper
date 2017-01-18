@@ -6,8 +6,6 @@ import com.github.xiaoma.sniper.core.serialize.support.kryo.KryoSerialization;
 import com.github.xiaoma.sniper.core.serialize.support.protostuff.ProtoStuffSerialization;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 /**
  * Created by machunxiao on 17/1/17.
  */
@@ -16,19 +14,34 @@ public class SerializationTest {
     @Test
     public void testJava() {
         Serialization java = new JavaSerialization();
-        testSerialization(java);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
+            testSerialization(java);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Java 100w次：" + (end - start));
     }
 
     @Test
     public void testProto() {
         Serialization proto = new ProtoStuffSerialization();
-        testSerialization(proto);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
+            testSerialization(proto);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Proto 100w次：" + (end - start));
     }
 
     @Test
     public void testKryo() {
         Serialization serialization = new KryoSerialization();
-        testSerialization(serialization);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
+            testSerialization(serialization);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Kryo 100w次：" + (end - start));
     }
 
 
@@ -38,9 +51,7 @@ public class SerializationTest {
 
         try {
             byte[] data = serialization.serialize(url, user);
-            System.out.println(Arrays.toString(data));
-            User user1 = serialization.deserialize(url, data, User.class);
-            System.out.println(String.format("serialization:%d,data.length:[%d],obj:[before:%s,after:%s]", serialization.getContentTypeId(), data.length, String.valueOf(user), String.valueOf(user1)));
+            serialization.deserialize(url, data, User.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -26,26 +26,24 @@ public enum KryoUtils {
         }
     }
 
-    private static KryoPool pool = new KryoPool.Builder(new SniperKryoFactory()).build();
+    private static KryoPool pool = new KryoPool.Builder(new SniperKryoFactory()).softReferences().build();
 
     public static byte[] serialize(Object data) throws IOException {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              Output output = new Output(baos)
         ) {
-            Kryo kryo = pool.borrow();
-            kryo.writeObject(output, data);
-            output.flush();
-            baos.flush();
-            return baos.toByteArray();
+            return pool.run((kryo) -> {
+                kryo.writeObject(output, data);
+                output.flush();
+                return baos.toByteArray();
+            });
         }
     }
 
     public static <T> T deserialize(byte[] data, Class<T> type) throws IOException {
-
         try (ByteArrayInputStream baos = new ByteArrayInputStream(data);
              Input input = new Input(baos)) {
-            Kryo kryo = pool.borrow();
-            return kryo.readObject(input, type);
+            return pool.run((kryo -> kryo.readObject(input, type)));
         }
     }
 
