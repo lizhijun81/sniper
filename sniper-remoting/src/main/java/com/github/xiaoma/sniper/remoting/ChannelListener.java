@@ -1,8 +1,11 @@
 package com.github.xiaoma.sniper.remoting;
 
+import com.github.xiaoma.sniper.core.extension.SPI;
+
 /**
  * Created by machunxiao on 16/12/26.
  */
+@SPI
 public interface ChannelListener {
 
     /**

@@ -4,6 +4,7 @@ import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.core.URL;
 import com.github.xiaoma.sniper.core.utils.NamedThreadFactory;
 import com.github.xiaoma.sniper.remoting.ChannelListener;
+import com.github.xiaoma.sniper.remoting.Client;
 import com.github.xiaoma.sniper.remoting.RemotingException;
 import com.github.xiaoma.sniper.remoting.ResponseFuture;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeChannel;
@@ -32,10 +33,10 @@ public class HeaderExchangeClient implements ExchangeClient {
     private int heartbeat;
     private int heartbeatTimeout;
 
-    private final ExchangeClient client;
+    private final Client client;
     private final ExchangeChannel channel;
 
-    public HeaderExchangeClient(ExchangeClient client) {
+    public HeaderExchangeClient(Client client) {
         this.client = client;
         this.channel = new HeaderExchangeChannel(client);
         this.heartbeat = client.getUrl().getParameter(Constants.HEARTBEAT_KEY, 0);

@@ -5,9 +5,7 @@ import com.github.xiaoma.sniper.remoting.Channel;
 import com.github.xiaoma.sniper.remoting.RemotingException;
 import com.github.xiaoma.sniper.remoting.exchange.*;
 import com.github.xiaoma.sniper.remoting.exchange.support.ExchangeHandlerAdapter;
-import com.github.xiaoma.sniper.rpc.Exporter;
-import com.github.xiaoma.sniper.rpc.Invoker;
-import com.github.xiaoma.sniper.rpc.RpcException;
+import com.github.xiaoma.sniper.rpc.*;
 import com.github.xiaoma.sniper.rpc.protocol.AbstractProtocol;
 
 import java.util.Map;
@@ -28,7 +26,13 @@ public class SniperProtocol extends AbstractProtocol {
 
         @Override
         public Object reply(ExchangeChannel channel, Object request) throws RemotingException {
-            return null;
+            if (request instanceof Invocation) {
+                Invocation inv = (Invocation) request;
+                Invoker<?> invoker = getInvoker(channel, inv);
+                RpcContext.getContext().setRemoteAddress(channel.getRemoteAddress());
+                return invoker.invoke(inv);
+            }
+            throw new RemotingException(channel, request.getClass().getName() + ": " + request + ", channel: consumer: " + channel.getRemoteAddress() + " --> provider: " + channel.getLocalAddress());
         }
 
         @Override
@@ -116,4 +120,17 @@ public class SniperProtocol extends AbstractProtocol {
             throw new RpcException("Fail to start server(url: " + url + ") " + e.getMessage(), e);
         }
     }
+
+    private Invoker<?> getInvoker(Channel channel, Invocation inv) throws RemotingException {
+
+        String serviceKey = serviceKey(channel.getUrl());
+
+        Exporter<?> exporter = exporterMap.get(serviceKey);
+        if (exporter == null) {
+            throw new RemotingException(channel, "");
+        }
+        return exporter.getInvoker();
+    }
+
+
 }

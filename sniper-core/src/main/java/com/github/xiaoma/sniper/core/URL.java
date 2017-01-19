@@ -1,5 +1,6 @@
 package com.github.xiaoma.sniper.core;
 
+import com.github.xiaoma.sniper.core.utils.NetUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,11 +86,26 @@ public final class URL {
         return value;
     }
 
+    public int getPositiveParameter(String key, int defaultValue) {
+        if (defaultValue <= 0) {
+            throw new IllegalArgumentException("defaultValue <= 0");
+        }
+        int value = getParameter(key, defaultValue);
+        if (value <= 0) {
+            return defaultValue;
+        }
+        return value;
+    }
+
     public int getMethodParameter(String methodName, String key, int defaultValue) {
         return 0;
     }
 
     public String getAddress() {
         return port <= 0 ? host : host + ":" + port;
+    }
+
+    public String getIp() {
+        return NetUtils.getIpByHost(host);
     }
 }

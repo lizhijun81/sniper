@@ -12,6 +12,8 @@ public enum Constants {
 
     public static final String  TIMEOUT_KEY                        = "timeout";
 
+    public static final int     DEFAULT_TIMEOUT                    = 1000;
+
     public static final String  ASYNC_KEY                          = "async";
 
     public static final String  RETURN_KEY                         = "return";
@@ -43,4 +45,8 @@ public enum Constants {
     public static final String SERIALIZATION_KEY                   = "serialization";
     public static final String DEFAULT_SERIALIZATION               = "protobuf";
 
+    public static final String PAYLOAD_KEY                         = "payload";
+    public static final int    DEFAULT_PAYLOAD                     = 8 * 1024 * 1024; // 8M
+
+    public static final String SIDE_KEY                            = "side";
 }

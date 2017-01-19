@@ -1,10 +1,8 @@
 package com.github.xiaoma.sniper.remoting.exchange.support;
 
+import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.core.URL;
-import com.github.xiaoma.sniper.remoting.Channel;
-import com.github.xiaoma.sniper.remoting.ChannelListener;
-import com.github.xiaoma.sniper.remoting.RemotingException;
-import com.github.xiaoma.sniper.remoting.ResponseFuture;
+import com.github.xiaoma.sniper.remoting.*;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeChannel;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeHandler;
 
@@ -15,7 +13,13 @@ import java.net.InetSocketAddress;
  */
 final class HeaderExchangeChannel implements ExchangeChannel {
 
+    private final Channel channel;
+
     HeaderExchangeChannel(Channel channel) {
+        if (channel == null) {
+            throw new IllegalArgumentException("channel == null");
+        }
+        this.channel = channel;
     }
 
     @Override
@@ -85,12 +89,20 @@ final class HeaderExchangeChannel implements ExchangeChannel {
 
     @Override
     public ResponseFuture request(Object request) throws RemotingException {
-        return null;
+        return request(request, channel.getUrl().getPositiveParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT));
+
     }
 
     @Override
     public ResponseFuture request(Object request, int timeout) throws RemotingException {
-        return null;
+        DefaultFuture future = new DefaultFuture(channel, request, timeout);
+        try {
+            channel.send(request);
+        } catch (RemotingException e) {
+            future.cancel();
+            throw e;
+        }
+        return future;
     }
 
     @Override

@@ -19,7 +19,6 @@ public class KryoSerialization implements Serialization {
     @Override
     public byte[] serialize(URL url, Object data) throws IOException {
         return KryoUtils.serialize(data);
-
     }
 
     @Override

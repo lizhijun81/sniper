@@ -7,6 +7,7 @@ import com.github.xiaoma.sniper.remoting.RemotingException;
 import com.github.xiaoma.sniper.core.URL;
 
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 
 /**
  * Created by machunxiao on 16/12/26.
@@ -106,4 +107,9 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     protected abstract void doDisconnect() throws Throwable;
 
     protected abstract Channel getChannel();
+
+
+    protected SocketAddress getConnectAddress() {
+        return null;
+    }
 }

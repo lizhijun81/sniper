@@ -3,7 +3,10 @@ package com.github.xiaoma.sniper.remoting.exchange.support;
 import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.core.URL;
 import com.github.xiaoma.sniper.core.utils.NamedThreadFactory;
-import com.github.xiaoma.sniper.remoting.*;
+import com.github.xiaoma.sniper.remoting.Channel;
+import com.github.xiaoma.sniper.remoting.ChannelListener;
+import com.github.xiaoma.sniper.remoting.RemotingException;
+import com.github.xiaoma.sniper.remoting.Server;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeChannel;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeServer;
 import org.slf4j.Logger;
@@ -30,10 +33,10 @@ public class HeaderExchangeServer implements ExchangeServer {
     private int heartbeat;
     private int heartbeatTimeout;
 
-    private final ExchangeServer server;
+    private final Server server;
     private volatile boolean closed = false;
 
-    public HeaderExchangeServer(ExchangeServer server) {
+    public HeaderExchangeServer(Server server) {
         if (server == null) {
             throw new IllegalArgumentException("server == null");
         }
@@ -70,12 +73,12 @@ public class HeaderExchangeServer implements ExchangeServer {
 
     @Override
     public void send(Object message) throws RemotingException {
-
+        server.send(message);
     }
 
     @Override
     public void send(Object message, boolean sent) throws RemotingException {
-
+        server.send(message, sent);
     }
 
     @Override

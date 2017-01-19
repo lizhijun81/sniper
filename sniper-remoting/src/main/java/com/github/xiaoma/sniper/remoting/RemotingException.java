@@ -9,4 +9,8 @@ public class RemotingException extends Exception {
     public RemotingException(Channel channel, String msg) {
         super(msg);
     }
+
+    public RemotingException(Channel channel, String msg, Throwable ex) {
+        super(msg);
+    }
 }
