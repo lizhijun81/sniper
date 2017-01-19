@@ -37,7 +37,7 @@ public abstract class AbstractPeer implements Endpoint, ChannelListener {
 
     @Override
     public void send(Object message) throws RemotingException {
-        send(message, false);
+        send(message, url.getParameter(Constants.SENT_KEY, false));
     }
 
     @Override

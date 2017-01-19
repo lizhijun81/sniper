@@ -132,4 +132,8 @@ public class NettyChannel extends AbstractChannel {
         }
         return channelMap.computeIfAbsent(ch, channel -> new NettyChannel(channel, url, listener));
     }
+
+    public static void removeChannel(Channel channel) {
+
+    }
 }

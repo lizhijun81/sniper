@@ -49,4 +49,8 @@ public enum Constants {
     public static final int    DEFAULT_PAYLOAD                     = 8 * 1024 * 1024; // 8M
 
     public static final String SIDE_KEY                            = "side";
+
+    public static final String SENT_KEY                            = "sent";
+    public static final String CONNECT_TIMEOUT_KEY                 = "connect.timeout";
+    public static final int    DEFAULT_CONNECT_TIMEOUT             = 3000;
 }

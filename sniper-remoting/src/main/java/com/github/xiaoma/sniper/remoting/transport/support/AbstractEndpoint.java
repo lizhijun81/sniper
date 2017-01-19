@@ -13,10 +13,14 @@ import com.github.xiaoma.sniper.remoting.Codec;
 public abstract class AbstractEndpoint extends AbstractPeer implements Resettable {
 
     private final Codec codec;
+    private int timeout;
+    private int connectTimeout;
 
     public AbstractEndpoint(URL url, ChannelListener listener) {
         super(url, listener);
         this.codec = getChannelCodec(url);
+        this.timeout = url.getPositiveParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT);
+        this.connectTimeout = url.getPositiveParameter(Constants.CONNECT_TIMEOUT_KEY, Constants.DEFAULT_CONNECT_TIMEOUT);
     }
 
     @Override
@@ -31,5 +35,13 @@ public abstract class AbstractEndpoint extends AbstractPeer implements Resettabl
 
     protected Codec getCodec() {
         return codec;
+    }
+
+    protected int getTimeout() {
+        return timeout;
+    }
+
+    protected int getConnectTimeout() {
+        return connectTimeout;
     }
 }

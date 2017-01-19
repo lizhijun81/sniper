@@ -80,6 +80,14 @@ public final class URL {
         return result;
     }
 
+    public boolean getParameter(String key, boolean defaultValue) {
+        String value = getParameter(key);
+        if (value == null || value.length() == 0) {
+            return defaultValue;
+        }
+        return Boolean.parseBoolean(value);
+    }
+
     public String getParameter(String key, String defaultValue) {
         String value = getParameter(key);
         value = value == null || value.trim().length() == 0 ? defaultValue : value;

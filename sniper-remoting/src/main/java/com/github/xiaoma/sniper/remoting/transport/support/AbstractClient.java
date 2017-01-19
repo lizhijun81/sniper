@@ -5,22 +5,39 @@ import com.github.xiaoma.sniper.remoting.ChannelListener;
 import com.github.xiaoma.sniper.remoting.Client;
 import com.github.xiaoma.sniper.remoting.RemotingException;
 import com.github.xiaoma.sniper.core.URL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by machunxiao on 16/12/26.
  */
 public abstract class AbstractClient extends AbstractEndpoint implements Client {
 
-    public AbstractClient(URL url, ChannelListener listener) {
-        super(url, listener);
-    }
+    private static final Logger logger = LoggerFactory.getLogger(AbstractClient.class);
 
-    @Override
-    public URL getUrl() {
-        return null;
+    private static final Lock connectLock = new ReentrantLock();
+
+    public AbstractClient(URL url, ChannelListener listener) throws RemotingException {
+        super(url, listener);
+        try {
+            doOpen();
+        } catch (Throwable t) {
+            close();
+            throw new RemotingException(null, "");
+        }
+        try {
+            connect();
+        } catch (RemotingException ex) {
+
+        } catch (Throwable t) {
+            close();
+            throw new RemotingException(null, "");
+        }
     }
 
     @Override
@@ -29,8 +46,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     }
 
     @Override
-    public void send(Object message) throws RemotingException {
-
+    public InetSocketAddress getRemoteAddress() {
+        return null;
     }
 
     @Override
@@ -39,28 +56,9 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     }
 
     @Override
-    public void close() {
-
-    }
-
-    @Override
-    public void close(int timeout) {
-
-    }
-
-    @Override
-    public boolean isClosed() {
-        return false;
-    }
-
-    @Override
     public void reconnect() throws RemotingException {
-
-    }
-
-    @Override
-    public InetSocketAddress getRemoteAddress() {
-        return null;
+        disconnect();
+        connect();
     }
 
     @Override
@@ -89,13 +87,18 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     }
 
     @Override
-    public void reset(URL url) {
+    public void close() {
 
     }
 
     @Override
-    public ChannelListener getChannelListener() {
-        return null;
+    public void close(int timeout) {
+
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + " [" + getLocalAddress() + " -> " + getRemoteAddress() + "]";
     }
 
     protected abstract void doOpen() throws Throwable;
@@ -108,6 +111,42 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
 
     protected abstract Channel getChannel();
 
+    protected void connect() throws RemotingException {
+        connectLock.lock();
+        try {
+            if (isConnected()) {
+                return;
+            }
+            doConnect();
+        } catch (RemotingException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            throw new RemotingException(null, "", ex);
+        } finally {
+            connectLock.unlock();
+        }
+    }
+
+    protected void disconnect() throws RemotingException {
+        connectLock.lock();
+        try {
+            try {
+                Channel channel = getChannel();
+                if (channel != null) {
+                    channel.close();
+                }
+            } catch (Throwable ex) {
+                logger.error("", ex);
+            }
+            try {
+                doDisconnect();
+            } catch (Throwable ex) {
+                logger.error("", ex);
+            }
+        } finally {
+            connectLock.unlock();
+        }
+    }
 
     protected SocketAddress getConnectAddress() {
         return null;

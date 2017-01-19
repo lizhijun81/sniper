@@ -43,10 +43,12 @@ public class NettyServer extends AbstractServer {
                         @Override
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
-                            // 注册handler
                             ChannelListener listener = NettyServer.this;
-                            ch.pipeline().addLast("encoder", new NettyEncoder<>(getCodec(), url, listener));
-                            ch.pipeline().addLast("decoder", new NettyDecoder(getCodec(), url, listener));
+                            NettyCodecAdapter adapter = new NettyCodecAdapter(getCodec(), url, listener);
+                            ch.pipeline()
+                                    .addLast("encoder", adapter.getEncoder())
+                                    .addLast("handler", new NettyHandler(url, listener))
+                                    .addLast("decoder", adapter.getDecoder());
                         }
                     })
                     .option(ChannelOption.TCP_NODELAY, true)

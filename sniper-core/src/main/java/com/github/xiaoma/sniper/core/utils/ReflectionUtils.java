@@ -16,7 +16,7 @@ public enum ReflectionUtils {
 
         Class<?>[] classTypes = new Class[classStrings.length];
         for (int i = 0; i < classStrings.length; i++) {
-            String className = classStrings[i];
+            String className = classStrings[i].trim();
             classTypes[i] = Class.forName(className);
         }
         return classTypes;
