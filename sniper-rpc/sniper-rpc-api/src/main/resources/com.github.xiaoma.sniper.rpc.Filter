@@ -1,0 +1,2 @@
+#filter
+timeout=com.github.xiaoma.sniper.rpc.filter.TimeoutFilter

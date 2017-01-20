@@ -14,11 +14,13 @@ import java.util.Map;
 public final class URL {
 
     /**
-     * abc://username:password@example.com:123/path/data?key=value&key2=value2#fragid1
-     * └┬┘   └───────┬───────┘ └────┬────┘ └┬┘           └─────────┬─────────┘ └──┬──┘
-     * scheme  user information   host     port                 query         fragment
+     * <pre>
+     *      http://username:password@example.com:1234/path/data?key=value&key2=value2#fragid1
+     *        └┬┘   └───────┬───────┘ └────┬────┘  └┬┘           └─────────┬─────────┘ └──┬──┘
+     *      protocol user information    host      port                  query         fragment
+     * </pre>
      */
-    private final String schema;
+    private final String protocol;
     private final String username;
     private final String password;
     private final String host;
@@ -26,16 +28,16 @@ public final class URL {
     private final String path;
     private final Map<String, String> parameters;
 
-    public URL(String schema, String host, int port) {
-        this(schema, null, null, host, port, null, null);
+    public URL(String protocol, String host, int port) {
+        this(protocol, null, null, host, port, null, null);
     }
 
-    public URL(String schema, String username, String password, String host, int port, String path, Map<String, String> parameters) {
+    public URL(String protocol, String username, String password, String host, int port, String path, Map<String, String> parameters) {
         if ((username == null || username.length() == 0)
                 && password != null && password.length() > 0) {
             throw new IllegalArgumentException("Invalid url, password without username!");
         }
-        this.schema = schema;
+        this.protocol = protocol;
         this.username = username;
         this.password = password;
         this.host = host;

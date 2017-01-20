@@ -1,3 +1,0 @@
-#transporter
-nio=com.github.xiaoma.sniper.remoting.transport.support.NioTransporter
-netty=com.github.xiaoma.sniper.remoting.transport.support.NettyTransporter

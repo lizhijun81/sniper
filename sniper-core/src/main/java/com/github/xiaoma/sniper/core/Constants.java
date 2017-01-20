@@ -37,20 +37,31 @@ public enum Constants {
     public static final String  HEARTBEAT_TIMEOUT_KEY              = "heartbeat.timeout";
 
     // read from channel,write to channel timestamp
-    public static final String KEY_READ_TIMESTAMP                  = "read_timestamp";
-    public static final String KEY_WRITE_TIMESTAMP                 = "write_timestamp";
+    public static final String  KEY_READ_TIMESTAMP                 = "read_timestamp";
+    public static final String  KEY_WRITE_TIMESTAMP                = "write_timestamp";
 
-    public static final String CODEC_KEY                           = "codec";
-    public static final String CODEC_DEFAULT_KEY                   = "nio";
-    public static final String SERIALIZATION_KEY                   = "serialization";
-    public static final String DEFAULT_SERIALIZATION               = "protobuf";
+    public static final String  CODEC_KEY                          = "codec";
+    public static final String  CODEC_DEFAULT_KEY                  = "nio";
+    public static final String  SERIALIZATION_KEY                  = "serialization";
+    public static final String  DEFAULT_SERIALIZATION              = "protobuf";
 
-    public static final String PAYLOAD_KEY                         = "payload";
-    public static final int    DEFAULT_PAYLOAD                     = 8 * 1024 * 1024; // 8M
+    public static final String  PAYLOAD_KEY                        = "payload";
+    public static final int     DEFAULT_PAYLOAD                    = 8 * 1024 * 1024; // 8M
 
-    public static final String SIDE_KEY                            = "side";
+    public static final String  SIDE_KEY                           = "side";
 
-    public static final String SENT_KEY                            = "sent";
-    public static final String CONNECT_TIMEOUT_KEY                 = "connect.timeout";
-    public static final int    DEFAULT_CONNECT_TIMEOUT             = 3000;
+    public static final String  SENT_KEY                           = "sent";
+    public static final String  CONNECT_TIMEOUT_KEY                = "connect.timeout";
+    public static final int     DEFAULT_CONNECT_TIMEOUT            = 3000;
+
+    public static final String  REGISTRY_PROTOCOL                  = "registry";
+
+    public static final String  REFERENCE_FILTER_KEY               = "reference.filter";
+    public static final String  INVOKER_LISTENER_KEY               = "invoker.listener";
+    public static final String  SERVICE_FILTER_KEY                 = "service.filter";
+    public static final String  EXPORTER_LISTENER_KEY              = "exporter.listener";
+
+    public static final String  PROVIDER                           = "provider";
+    public static final String  CONSUMER                           = "consumer";
+
 }

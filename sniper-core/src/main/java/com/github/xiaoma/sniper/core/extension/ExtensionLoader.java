@@ -1,5 +1,6 @@
 package com.github.xiaoma.sniper.core.extension;
 
+import com.github.xiaoma.sniper.core.URL;
 import com.github.xiaoma.sniper.core.compiler.Compiler;
 import com.github.xiaoma.sniper.core.utils.Holder;
 import org.slf4j.Logger;
@@ -10,9 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -120,6 +121,9 @@ public class ExtensionLoader<T> {
         return getExtension(cachedDefaultName);
     }
 
+    public List<T> getActivateExtension(URL url, String key, String group) {
+        return null;
+    }
 
     private Class<?> getAdaptiveExtensionClass() {
         getExtensionClasses();
@@ -223,7 +227,7 @@ public class ExtensionLoader<T> {
     private void loadFile(Map<String, Class<?>> extensionClasses, String dir) {
         String fileName = dir == null ? "" : dir + type.getName();
         try {
-            Enumeration<URL> urls;
+            Enumeration<java.net.URL> urls;
             ClassLoader classLoader = findClassLoader();
             if (classLoader != null) {
                 urls = classLoader.getResources(fileName);
@@ -234,7 +238,7 @@ public class ExtensionLoader<T> {
                 return;
             }
             while (urls.hasMoreElements()) {
-                URL url = urls.nextElement();
+                java.net.URL url = urls.nextElement();
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
                     String line;
                     while ((line = reader.readLine()) != null && (line = line.trim()).length() > 0) {

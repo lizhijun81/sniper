@@ -3,17 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>sniper-all</artifactId>
+        <artifactId>sniper-remoting</artifactId>
         <groupId>com.github.xiaoma.sniper</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sniper-remoting</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>sniper-remoting-api</module>
-        <module>sniper-remoting-netty</module>
-        <module>sniper-remoting-nio</module>
-    </modules>
+    <artifactId>sniper-remoting-api</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.xiaoma.sniper</groupId>
+            <artifactId>sniper-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

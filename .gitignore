@@ -18,3 +18,4 @@ out/
 #project
 **/build/
 **/.gradle/
+**/.DS_Store

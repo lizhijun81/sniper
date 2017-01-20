@@ -10,21 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sniper-rpc</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>sniper-rpc-api</module>
+        <module>sniper-rpc-default</module>
+    </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.xiaoma.sniper</groupId>
-            <artifactId>sniper-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.xiaoma.sniper</groupId>
-            <artifactId>sniper-remoting</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-        </dependency>
-    </dependencies>
 </project>
