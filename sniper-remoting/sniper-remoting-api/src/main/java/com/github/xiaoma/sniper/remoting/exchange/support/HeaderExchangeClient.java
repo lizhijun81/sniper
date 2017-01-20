@@ -7,6 +7,7 @@ import com.github.xiaoma.sniper.remoting.*;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeChannel;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeClient;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeHandler;
+import com.github.xiaoma.sniper.remoting.exchange.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

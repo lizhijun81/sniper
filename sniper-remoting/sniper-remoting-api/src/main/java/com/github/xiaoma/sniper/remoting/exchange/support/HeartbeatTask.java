@@ -3,7 +3,7 @@ package com.github.xiaoma.sniper.remoting.exchange.support;
 import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.remoting.Channel;
 import com.github.xiaoma.sniper.remoting.Client;
-import com.github.xiaoma.sniper.remoting.Request;
+import com.github.xiaoma.sniper.remoting.exchange.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

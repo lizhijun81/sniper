@@ -4,8 +4,8 @@ import com.github.xiaoma.sniper.core.URL;
 import com.github.xiaoma.sniper.core.serialize.Serialization;
 import com.github.xiaoma.sniper.core.utils.ReflectionUtils;
 import com.github.xiaoma.sniper.remoting.Channel;
-import com.github.xiaoma.sniper.remoting.Request;
-import com.github.xiaoma.sniper.remoting.Response;
+import com.github.xiaoma.sniper.remoting.exchange.Request;
+import com.github.xiaoma.sniper.remoting.exchange.Response;
 import com.github.xiaoma.sniper.remoting.codec.AbstractCodec;
 
 import java.io.*;

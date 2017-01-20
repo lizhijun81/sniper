@@ -2,6 +2,7 @@ package com.github.xiaoma.sniper.remoting.exchange.support;
 
 import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.remoting.*;
+import com.github.xiaoma.sniper.remoting.exchange.Response;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -20,7 +21,7 @@ public class DefaultFuture implements ResponseFuture {
     private final Lock                  lock = new ReentrantLock();
     private final Condition             done = lock.newCondition();
 
-    private volatile Response           response;
+    private volatile Response response;
     private volatile ResponseCallback   callback;
 
     public DefaultFuture(Channel channel, Object request, int timeout) {

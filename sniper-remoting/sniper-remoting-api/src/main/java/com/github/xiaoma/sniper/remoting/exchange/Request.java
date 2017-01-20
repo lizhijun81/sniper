@@ -1,4 +1,4 @@
-package com.github.xiaoma.sniper.remoting;
+package com.github.xiaoma.sniper.remoting.exchange;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
