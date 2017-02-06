@@ -77,7 +77,7 @@ public class NettyChannel extends AbstractChannel {
 
     @Override
     public void send(Object message, boolean sent) throws RemotingException {
-        super.send(message, sent);
+        super.send(message, sent); // message is Request
         boolean success = true;
         int timeout = 0;
         try {

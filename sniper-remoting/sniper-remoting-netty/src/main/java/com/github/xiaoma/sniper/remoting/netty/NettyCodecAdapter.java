@@ -22,8 +22,8 @@ final class NettyCodecAdapter {
     private ChannelHandler  encoder = new NettyEncoder<>();
     private ChannelHandler  decoder = new NettyDecoder();
 
-    private final           Codec codec;
-    private final           URL url;
+    private final           Codec           codec;
+    private final           URL             url;
     private final           ChannelListener listener;
 
     NettyCodecAdapter(Codec codec, URL url, ChannelListener listener) {

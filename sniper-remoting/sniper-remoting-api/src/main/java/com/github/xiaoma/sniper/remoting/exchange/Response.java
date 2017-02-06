@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -15,9 +14,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Response implements Serializable {
-
-    private static final long serialVersionUID = 471061416515213021L;
+public class Response {
 
     private long requestId;
     private Object value;

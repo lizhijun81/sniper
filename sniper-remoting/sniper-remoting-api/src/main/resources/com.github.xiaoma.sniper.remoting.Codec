@@ -1,0 +1,3 @@
+# codec
+transport=com.github.xiaoma.sniper.remoting.transport.support.TransportCodec
+exchange=com.github.xiaoma.sniper.remoting.exchange.support.ExchangeCodec

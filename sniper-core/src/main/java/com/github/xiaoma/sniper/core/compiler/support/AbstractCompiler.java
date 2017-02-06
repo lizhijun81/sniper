@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public abstract class AbstractCompiler implements Compiler {
 
     private static final Pattern PACKAGE_PATTERN = Pattern.compile("package\\s+([$_a-zA-Z][$_a-zA-Z\\.]*);");
-    private static final Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s+");
+    private static final Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*\\{");
 
     @Override
     public Class<?> compile(String sourceCode, ClassLoader classLoader) {
