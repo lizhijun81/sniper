@@ -3,11 +3,13 @@ package com.github.xiaoma.sniper.remoting.exchange.support;
 import com.github.xiaoma.sniper.core.Constants;
 import com.github.xiaoma.sniper.core.URL;
 import com.github.xiaoma.sniper.core.utils.NamedThreadFactory;
-import com.github.xiaoma.sniper.remoting.*;
+import com.github.xiaoma.sniper.remoting.ChannelListener;
+import com.github.xiaoma.sniper.remoting.Client;
+import com.github.xiaoma.sniper.remoting.RemotingException;
+import com.github.xiaoma.sniper.remoting.ResponseFuture;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeChannel;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeClient;
 import com.github.xiaoma.sniper.remoting.exchange.ExchangeHandler;
-import com.github.xiaoma.sniper.remoting.exchange.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,8 +139,6 @@ public class HeaderExchangeClient implements ExchangeClient {
 
     @Override
     public ResponseFuture request(Object request, int timeout) throws RemotingException {
-        Request req = new Request();
-
         return channel.request(request, timeout);
     }
 

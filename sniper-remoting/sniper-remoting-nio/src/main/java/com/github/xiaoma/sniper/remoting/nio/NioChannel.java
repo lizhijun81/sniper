@@ -21,26 +21,19 @@ final class NioChannel extends AbstractChannel {
 
     private SocketChannel sc;
 
-    public NioChannel(URL url, ChannelListener listener) {
+    public NioChannel(SocketChannel sc, URL url, ChannelListener listener) {
         super(url, listener);
+        this.sc = sc;
     }
 
     @Override
     public InetSocketAddress getRemoteAddress() {
-        try {
-            return (InetSocketAddress) sc.getRemoteAddress();
-        } catch (IOException e) {
-            return null;
-        }
+        return (InetSocketAddress) sc.socket().getRemoteSocketAddress();
     }
 
     @Override
     public InetSocketAddress getLocalAddress() {
-        try {
-            return (InetSocketAddress) sc.getLocalAddress();
-        } catch (IOException e) {
-            return null;
-        }
+        return (InetSocketAddress) sc.socket().getLocalSocketAddress();
     }
 
     @Override
@@ -71,10 +64,10 @@ final class NioChannel extends AbstractChannel {
     @Override
     public void send(Object message, boolean sent) throws RemotingException {
         super.send(message, sent);
-
+        // encode
+        ByteBuffer buffer = null;
         try {
-            SocketChannel sc = SocketChannel.open();
-            sc.write(ByteBuffer.wrap("".getBytes()));
+            sc.write(buffer);
         } catch (IOException e) {
             e.printStackTrace();
         }

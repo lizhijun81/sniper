@@ -9,7 +9,7 @@ public enum RpcIdGenerator {
     ;
     protected static final AtomicLong offset = new AtomicLong();
 
-    public static long rpcId() {
+    public static long requestId() {
         return offset.incrementAndGet();
     }
 }

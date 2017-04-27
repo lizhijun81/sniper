@@ -84,8 +84,8 @@ final class HeaderExchangeChannel implements ExchangeChannel {
     @Override
     public void send(Object message, boolean sent) throws RemotingException {
         Request req = new Request();
-        req.setRequestId(RpcIdGenerator.rpcId());
-        req.setData(message);
+        req.setRequestId(RpcIdGenerator.requestId());
+        req.setData(message);   // message instance Invocation == true
         req.setEvent((byte) 0);
         req.setVersion("0.0.1");
         channel.send(req, sent);
@@ -114,7 +114,7 @@ final class HeaderExchangeChannel implements ExchangeChannel {
     @Override
     public ResponseFuture request(Object request, int timeout) throws RemotingException {
         Request req = new Request();
-        req.setRequestId(RpcIdGenerator.rpcId());
+        req.setRequestId(RpcIdGenerator.requestId());
         req.setData(request);
         req.setEvent((byte) 1);
         req.setVersion("0.0.1");

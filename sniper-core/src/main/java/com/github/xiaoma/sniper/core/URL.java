@@ -4,6 +4,7 @@ import com.github.xiaoma.sniper.core.utils.NetUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -11,8 +12,9 @@ import java.util.Map;
  */
 @Setter
 @Getter
-public final class URL {
+public final class URL implements Serializable {
 
+    private static final long serialVersionUID = -7893775489021228661L;
     /**
      * <pre>
      *      http://username:password@example.com:1234/path/data?key=value&key2=value2#fragid1
