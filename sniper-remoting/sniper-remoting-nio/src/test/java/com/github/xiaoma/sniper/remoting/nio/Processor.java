@@ -15,8 +15,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+ * This class was Deprecated
+ * Please use {@link com.github.xiaoma.sniper.remoting.nio.reactor.Processor}
+ * <p>
  * Created by machunxiao on 2017/3/21.
  */
+@Deprecated
 public class Processor {
 
     private static final Logger logger = LoggerFactory.getLogger(Processor.class);
@@ -35,12 +39,13 @@ public class Processor {
 
     public void addChannel(SocketChannel channel) throws IOException {
         channel.register(selector, SelectionKey.OP_READ);
+        selector.wakeup();
     }
 
     public void start() {
         service.submit(() -> {
             while (true) {
-                if (selector.selectNow() == 0) {
+                if (selector.select(1000L) == 0) {
                     continue;
                 }
                 Iterator<SelectionKey> it = selector.selectedKeys().iterator();
@@ -54,6 +59,7 @@ public class Processor {
                         String resp = "I'm response:" + Math.random();
                         key.attach(resp);
                         key.interestOps(SelectionKey.OP_WRITE);
+                        key.selector().wakeup();
                         logger.info("server process idx:{},read :{}.", read_idx.getAndIncrement(), req);
                     } else if (key.isValid() && key.isWritable()) {
                         String resp = (String) key.attachment();

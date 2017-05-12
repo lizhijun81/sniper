@@ -11,12 +11,19 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+ * This class was Deprecated
+ * Please use {@link com.github.xiaoma.sniper.remoting.nio.reactor.ServerBootstrap}
+ * <p>
  * Created by machunxiao on 2017/3/21.
  */
+@Deprecated
 public class Server {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
     private static final AtomicLong idx = new AtomicLong(1);
+
+    private final int coreNum = Runtime.getRuntime().availableProcessors();
+    private final Processor[] processors = new Processor[coreNum];
 
     private Selector selector;
     private ServerSocketChannel ssc;
@@ -43,29 +50,22 @@ public class Server {
         ssc = ServerSocketChannel.open();
         ssc.bind(new InetSocketAddress(host, port));
         ssc.configureBlocking(false);
+        ssc.register(selector, SelectionKey.OP_ACCEPT);
 
-        new Thread(new ProcessTask()).start();
-        while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        for (int i = 0; i < processors.length; i++) {
+            processors[i] = new Processor();
         }
+
+        new Thread(new AcceptTask()).start();
+
     }
 
-    private class ProcessTask implements Runnable {
+    private class AcceptTask implements Runnable {
 
         @Override
         public void run() {
             try {
-                ssc.register(selector, SelectionKey.OP_ACCEPT);
 
-                int coreNum = Runtime.getRuntime().availableProcessors();
-                Processor[] processors = new Processor[coreNum];
-                for (int i = 0; i < processors.length; i++) {
-                    processors[i] = new Processor();
-                }
                 int index = 0;
                 while (selector.select() > 0) {
                     Iterator<SelectionKey> it = selector.selectedKeys().iterator();
@@ -77,6 +77,8 @@ public class Server {
                             logger.info("accept a new client:{},idx:{}", client, idx.getAndIncrement());
                             Processor processor = processors[(index++) % coreNum];
                             processor.addChannel(client);
+                        } else {
+                            key.cancel();
                         }
                         it.remove();
                     }
